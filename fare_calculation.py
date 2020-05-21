@@ -1,3 +1,9 @@
+import csv
+file_input = input()
+
+file = open(file_input, "r", encoding='utf-8')
+csvFile = csv.DictReader(file)
+
 ticket_type = input()
 if ticket_type == "全票":
     bus_fare = 15
@@ -10,7 +16,9 @@ else:
 
 
 def count_mrt_fare(begin, final):
-
+    for row in csvFile:
+        if row["Departure_Station"] == begin and row["Destination_Station"] == final:
+            fare = row["Adult/Full Fare Tickets"]
     return fare
 
 
