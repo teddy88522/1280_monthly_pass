@@ -34,6 +34,20 @@ while weekday <= 7:  # 一週七天
 
         elif trans_type == "幹線":
             sections = int(input())
+            if len(sequence_list) != 0:
+                if sections > 1:
+                    first_section_price = bus_fare - difference
+                    price = first_section_price + bus_fare * (sections - 1)
+                    total_ticket_fare += price
+                else:
+                    price = discount_bus
+                    total_ticket_fare += price
+            else:
+                total_ticket_fare += bus_fare * sections
+
+        elif trans_type == "捷運":
+            begin = input()
+            final = input()
 
 
 
