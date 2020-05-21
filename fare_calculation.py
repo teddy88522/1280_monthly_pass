@@ -8,48 +8,74 @@ else:
     discount_bus = 6
     difference = bus_fare - discount_bus
 
+
+def count_mrt_fare(begin, final):
+
+    return fare
+
+
 mrt_trips = 0
 accumulated_mrt_fare = 0
 total_ticket_fare = 0
 weekday = 1
 while weekday <= 7:  # 一週七天
-    while True:  # 無限組行程
-        sequence_list = list()
-        trans_type = input()  # 公車、幹線、捷運
-        if trans_type == "公車":
-            sections = int(input())
 
-            if trans_type[-1] == "捷運" or trans_type[-1] == "幹線":
-                if sections > 1:
-                    first_section_price = bus_fare - difference
-                    price = first_section_price + bus_fare * (sections - 1)
-                    total_ticket_fare += price
+    while True:  # 一天有無限組
+
+        add_or_not = input()  # 是否要加組
+
+        if add_or_not == "add":  # 要加的話
+
+            while True:  # 無限組行程
+                sequence_list = list()  # 放搭乘工具種類、順序
+                trans_type = input()  # 公車、幹線、捷運
+                if trans_type == "公車":
+
+                    sections = int(input())  # 段數
+
+                    if trans_type[-1] == "捷運" or trans_type[-1] == "幹線":
+                        if sections > 1:
+                            first_section_price = bus_fare - difference
+                            price = first_section_price + bus_fare * (sections - 1)
+                            total_ticket_fare += price
+                        else:
+                            price = discount_bus
+                            total_ticket_fare += price
+                    else:
+                        price = bus_fare
+                        total_ticket_fare += price
+                    sequence_list.append(trans_type)
+
+                elif trans_type == "幹線":
+                    sections = int(input())
+                    if len(sequence_list) != 0:
+                        if sections > 1:
+                            first_section_price = bus_fare - difference
+                            price = first_section_price + bus_fare * (sections - 1)
+                            total_ticket_fare += price
+                        else:
+                            price = discount_bus
+                            total_ticket_fare += price
+                    else:
+                        total_ticket_fare += bus_fare * sections
+                    sequence_list.append(trans_type)
+
+                elif trans_type == "捷運":
+                    begin = input()
+                    final = input()
+                    mrt_fare = count_mrt_fare(begin, final)
+                    if sequence_list[-1] == "公車" or sequence_list[-1] == "幹線":
+                        new_fare = mrt_fare - difference
+                        total_ticket_fare += new_fare
+                        accumulated_mrt_fare += mrt_fare
+                    else:
+                        total_ticket_fare += mrt_fare
+                        accumulated_mrt_fare += mrt_fare
+                    sequence_list.append(trans_type)
                 else:
-                    price = discount_bus
-                    total_ticket_fare += price
-            else:
-                price = bus_fare
-                total_ticket_fare += price
-            sequence_list.append(trans_type)
-
-        elif trans_type == "幹線":
-            sections = int(input())
-            if len(sequence_list) != 0:
-                if sections > 1:
-                    first_section_price = bus_fare - difference
-                    price = first_section_price + bus_fare * (sections - 1)
-                    total_ticket_fare += price
-                else:
-                    price = discount_bus
-                    total_ticket_fare += price
-            else:
-                total_ticket_fare += bus_fare * sections
-
-        elif trans_type == "捷運":
-            begin = input()
-            final = input()
-
-
+                    break
+        else:
+            break
 
 
     weekday += 1
