@@ -27,7 +27,9 @@ accumulated_mrt_fare = 0
 total_ticket_fare = 0
 weekday = 1
 while weekday <= 7:  # 一週七天
-
+    payment_record_list = list()
+    one_day_mrt_fare = 0
+    one_day_ticket_fare = 0
     while True:  # 一天有無限組
 
         add_or_not = input()  # 是否要加組
@@ -45,13 +47,13 @@ while weekday <= 7:  # 一週七天
                         if sections > 1:
                             first_section_price = bus_fare - difference
                             price = first_section_price + bus_fare * (sections - 1)
-                            total_ticket_fare += price
+                            one_day_ticket_fare += price
                         else:
                             price = discount_bus
-                            total_ticket_fare += price
+                            one_day_ticket_fare += price
                     else:
                         price = bus_fare
-                        total_ticket_fare += price
+                        one_day_ticket_fare += price
                     sequence_list.append(trans_type)
 
                 elif trans_type == "幹線":
@@ -60,12 +62,12 @@ while weekday <= 7:  # 一週七天
                         if sections > 1:
                             first_section_price = bus_fare - difference
                             price = first_section_price + bus_fare * (sections - 1)
-                            total_ticket_fare += price
+                            one_day_ticket_fare += price
                         else:
                             price = discount_bus
-                            total_ticket_fare += price
+                            one_day_ticket_fare += price
                     else:
-                        total_ticket_fare += bus_fare * sections
+                        one_day_ticket_fare += bus_fare * sections
                     sequence_list.append(trans_type)
 
                 elif trans_type == "捷運":
@@ -75,10 +77,10 @@ while weekday <= 7:  # 一週七天
                     if sequence_list[-1] == "公車" or sequence_list[-1] == "幹線":
                         new_fare = mrt_fare - difference
                         total_ticket_fare += new_fare
-                        accumulated_mrt_fare += mrt_fare
+                        one_day_mrt_fare += mrt_fare
                     else:
-                        total_ticket_fare += mrt_fare
-                        accumulated_mrt_fare += mrt_fare
+                        one_day_ticket_fare += mrt_fare
+                        one_day_mrt_fare += mrt_fare
                     sequence_list.append(trans_type)
                 else:
                     break
