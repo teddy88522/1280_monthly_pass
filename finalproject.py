@@ -96,7 +96,6 @@ while weekday <= 7:  # 一週七天
                     final_station = input("請輸入下車站名")
                     mrt_fare = count_mrt_fare(begin_station, final_station)
                     one_day_mrt_trips += 1
-                    print(mrt_fare)
 
                     if (len(sequence_list) > 0) and (sequence_list[-1] == "公車" or sequence_list[-1] == "幹線"):
                         new_fare = mrt_fare - difference
@@ -139,7 +138,12 @@ else:
 # 比較一個月花費跟1280
 actual_mrt_fare = accumulated_mrt_fare * 4 + day1_day2_mrt_fare
 discount_money = actual_mrt_fare * discount
-total_expense = total_ticket_fare * 4 + day1_day2_fare - discount_money
+decile = int(discount_money * 10) % 10  # 十分位數
+if decile <= 4:
+    new_discount = int(discount_money)
+elif decile >= 5:
+    new_discount = int(discount_money) + 1
+total_expense = total_ticket_fare * 4 + day1_day2_fare - new_discount
 
 if total_expense < 1280:
     print("Your monthly expense is: " + str(total_expense) + ". Don't buy $1280!")
