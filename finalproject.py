@@ -5,6 +5,7 @@ file_input = input()
 file = open(file_input, "r", encoding='utf-8')
 csvFile = csv.DictReader(file)
 
+
 # 全票，學生票兩種
 ticket_type = input()
 if ticket_type == "全票":
@@ -28,7 +29,10 @@ mrt_trips = 0
 accumulated_mrt_fare = 0
 total_ticket_fare = 0
 weekday = 1
-sequence_list = list()  # 放搭乘工具種類、順序
+record_day1_fare = 0
+record_day2_fare = 0
+mrt_trips_day1 = 0
+mrt_trips_day2 = 0
 while weekday <= 7:  # 一週七天
     payment_record_list = list()
     one_day_mrt_fare = 0
@@ -40,7 +44,7 @@ while weekday <= 7:  # 一週七天
         if add_or_not == "add":  # 要加的話
 
             while True:  # 無限組行程
-                #sequence_list = list()  # 放搭乘工具種類、順序
+                sequence_list = list()  # 放該組搭乘工具種類、順序
                 trans_type = input()  # 公車、幹線、捷運
                 if trans_type == "公車":
 
@@ -50,13 +54,28 @@ while weekday <= 7:  # 一週七天
                         if sections > 1:
                             first_section_price = bus_fare - difference
                             price = first_section_price + bus_fare * (sections - 1)
-                            one_day_ticket_fare += price
+                            if weekday == 1:
+                                record_day1_fare += price
+                            elif weekday == 2:
+                                record_day2_fare += price
+                            else:
+                                one_day_ticket_fare += price
                         else:
                             price = discount_bus
-                            one_day_ticket_fare += price
+                            if weekday == 1:
+                                record_day1_fare += price
+                            elif weekday == 2:
+                                record_day2_fare += price
+                            else:
+                                one_day_ticket_fare += price
                     else:
                         price = bus_fare
-                        one_day_ticket_fare += price
+                        if weekday == 1:
+                                record_day1_fare += price
+                        elif weekday == 2:
+                            record_day2_fare += price
+                        else:
+                            one_day_ticket_fare += price
                     sequence_list.append(trans_type)
 
                 elif trans_type == "幹線":
@@ -65,26 +84,61 @@ while weekday <= 7:  # 一週七天
                         if sections > 1:
                             first_section_price = bus_fare - difference
                             price = first_section_price + bus_fare * (sections - 1)
-                            one_day_ticket_fare += price
+                            if weekday == 1:
+                                record_day1_fare += price
+                            elif weekday == 2:
+                                record_day2_fare += price
+                            else:
+                                one_day_ticket_fare += price
                         else:
                             price = discount_bus
-                            one_day_ticket_fare += price
+                            if weekday == 1:
+                                record_day1_fare += price
+                            elif weekday == 2:
+                                record_day2_fare += price
+                            else:
+                                one_day_ticket_fare += price
                     else:
-                        one_day_ticket_fare += bus_fare * sections
+                        if weekday == 1:
+                                record_day1_fare += price
+                        elif weekday == 2:
+                            record_day2_fare += price
+                        else:
+                            one_day_ticket_fare += price
                     sequence_list.append(trans_type)
 
                 elif trans_type == "捷運":
                     begin = input()
                     final = input()
                     mrt_fare = count_mrt_fare(begin, final)
-                    mrt_trips += 1
+                    if weekday == 1:
+                        mrt_trips_day1 += 1
+                    elif weekday == 2:
+                        mrt_trips_day2 += 1
+                    else:
+                        mrt_trips += 1
+
                     if sequence_list[-1] == "公車" or sequence_list[-1] == "幹線":
                         new_fare = mrt_fare - difference
-                        total_ticket_fare += new_fare
-                        one_day_mrt_fare += mrt_fare
+                        if weekday == 1:
+                            record_day1_fare += new_fare
+                            record_day1_fare += mrt_fare
+                        elif weekday == 2:
+                            record_day2_fare += new_fare
+                            record_day2_fare += mrt_fare
+                        else:   
+                            total_ticket_fare += new_fare
+                            one_day_mrt_fare += mrt_fare
                     else:
-                        one_day_ticket_fare += mrt_fare
-                        one_day_mrt_fare += mrt_fare
+                        if weekday == 1:
+                            record_day1_fare += new_fare
+                            record_day1_fare += mrt_fare
+                        elif weekday == 2:
+                            record_day2_fare += new_fare
+                            record_day2_fare += mrt_fare
+                        else:   
+                            total_ticket_fare += new_fare
+                            one_day_mrt_fare += mrt_fare
                     sequence_list.append(trans_type)
                 else:
                     break
@@ -96,7 +150,7 @@ while weekday <= 7:  # 一週七天
 
     weekday += 1
 
-mrt_trips = mrt_trips * (30/7)
+mrt_trips = mrt_trips * (4) + mrt_trips_day1 + mrt_trips_day2 
 if 11 <= mrt_trips <= 20:
     discount = 0.1
 elif 21 <= mrt_trips <= 30:
@@ -111,7 +165,7 @@ else:
     discount = 0
 
 # 比較一個月花費跟1280
-total_expense = (accumulated_mrt_fare + total_ticket_fare)*(30/7)
+total_expense = (accumulated_mrt_fare + total_ticket_fare)*(4) + record_day1_fare + record_day2_fare
 discount_money = total_expense*discount
 total_expense = total_expense - discount_money
 
