@@ -51,6 +51,7 @@ while weekday <= 7:  # 一週七天
                         else:
                             price = discount_bus
                             one_day_ticket_fare += price
+                            print(one_day_ticket_fare)
                     else:
                         price = bus_fare
                         one_day_ticket_fare += price
@@ -83,6 +84,8 @@ while weekday <= 7:  # 一週七天
                         one_day_mrt_fare += mrt_fare
                     sequence_list.append(trans_type)
                 else:
+                    print(one_day_ticket_fare)
+                    print(one_day_mrt_fare)
                     break
         else:
             break
