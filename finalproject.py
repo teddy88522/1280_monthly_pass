@@ -2,10 +2,6 @@ import csv
 # 讀取捷運價目表
 file_input = input("Please enter the location of ticket fare table: ")
 
-file = open(file_input, "r", encoding='utf-8')
-csvFile = csv.DictReader(file)
-
-
 # 全票，學生票兩種
 ticket_type = input("Please enter the ticket type: 全票/學生票")
 if ticket_type == "全票":
@@ -19,10 +15,13 @@ else:
 
 
 def count_mrt_fare(begin, final):
+    file = open(file_input, "r", encoding='utf-8')
+    csvFile = csv.DictReader(file)
     for row in csvFile:
         if row["Departure_Station"] == begin and row["Destination_Station"] == final:
             fare = int(row["Adult/Full Fare Tickets"])
             return fare
+            break
         else:
             continue
 
