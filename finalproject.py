@@ -21,8 +21,10 @@ else:
 def count_mrt_fare(begin, final):
     for row in csvFile:
         if row["Departure_Station"] == begin and row["Destination_Station"] == final:
-            fare = row["Adult/Full Fare Tickets"]
-    return fare
+            fare = int(row["Adult/Full Fare Tickets"])
+            return fare
+        else:
+            continue
 
 
 weekday = 1  # 以第一天為起始
@@ -95,6 +97,7 @@ while weekday <= 7:  # 一週七天
                     final_station = input("請輸入下車站名")
                     mrt_fare = count_mrt_fare(begin_station, final_station)
                     one_day_mrt_trips += 1
+                    print(mrt_fare)
 
                     if (len(sequence_list) > 0) and (sequence_list[-1] == "公車" or sequence_list[-1] == "幹線"):
                         new_fare = mrt_fare - difference
