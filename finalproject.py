@@ -62,11 +62,14 @@ while weekday <= 7:  # 一週七天
                         if sections > 1:  # 若段數超過一段
                             price = discount_bus + bus_fare * (sections - 1)
                             one_day_ticket_fare += price
+                            print("section > 1" + str(one_day_ticket_fare))
                         else:  # 只有一段
                             price = discount_bus
                             one_day_ticket_fare += price
+                            print("section == 1" + str(one_day_ticket_fare))
                     else:  # 如果沒搭過別的交通工具或前一個無法有折扣
                         one_day_ticket_fare += bus_fare * sections
+                        print("沒折扣" + str(one_day_ticket_fare))
 
                     sequence_list.append(trans_type)
 
@@ -79,11 +82,14 @@ while weekday <= 7:  # 一週七天
                         if sections > 1:  # 搭超過一段
                             price = discount_bus + bus_fare * (sections - 1)
                             one_day_ticket_fare += price
+                            print("section > 1" + str(one_day_ticket_fare))
                         else:  # 搭一段而已
                             one_day_ticket_fare += discount_bus
+                            print("section == 1" + str(one_day_ticket_fare))
 
                     else:  # 若沒搭過別的交通工具
                         one_day_ticket_fare += bus_fare * sections
+                        print("沒折扣" + str(one_day_ticket_fare))
 
                     sequence_list.append(trans_type)
 
@@ -103,6 +109,8 @@ while weekday <= 7:  # 一週七天
                     sequence_list.append(trans_type)
                 else:
                     break
+
+        else:
             if weekday == 1 or weekday == 2:
                 day1_day2_fare += one_day_ticket_fare
                 day1_day2_mrt_trips += one_day_mrt_trips
@@ -111,8 +119,6 @@ while weekday <= 7:  # 一週七天
             total_ticket_fare += one_day_ticket_fare
             accumulated_mrt_fare += one_day_mrt_fare
             mrt_trips += one_day_mrt_trips
-
-        else:
             break
 
     weekday += 1
